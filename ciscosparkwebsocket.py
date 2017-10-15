@@ -3,7 +3,6 @@ import sys
 import json
 import requests
 import asyncio
-from concurrent.futures import ThreadPoolExecutor
 
 import websockets
 import uuid
@@ -28,7 +27,6 @@ class CiscoSpark(object):
         self.spark = CiscoSparkAPI(access_token=access_token)
         self.device_info = None
         self.on_message = on_message
-        self.executor_pool = ThreadPoolExecutor(2)
         
     def process_message(self, msg):
         if msg['data']['eventType'] == 'conversation.activity':
@@ -74,6 +72,7 @@ class CiscoSpark(object):
         self.my_emails = self.spark.people.me().emails
             
         async def _run():
+            logging.debug("Opening websocket connection to %s" % self.device_info['webSocketUrl'])
             async with websockets.connect(self.device_info['webSocketUrl']) as ws:
                 logging.info("WebSocket Opened\n")
                 msg = {'id': str(uuid.uuid4()),
@@ -90,7 +89,7 @@ class CiscoSpark(object):
                     try:
                         msg = json.loads(message)
                         loop = asyncio.get_event_loop()
-                        await loop.run_in_executor(self.executor_pool, self.process_message, msg)
+                        loop.run_in_executor(None, self.process_message, msg)
                     except:
                         logging.warning('An exception occurred while processing message. Ignoring. ')
                         
