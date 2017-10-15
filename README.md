@@ -4,8 +4,12 @@ This module can be used to build a bot for Cisco Spark that only uses outbound c
 
 ## Getting Started
 ### Prerequisites
- - Python's async features (async/await) are used, so requires Python 3.5 (tested with Python 3.6.2)
+ - Python's async features (async/await) are used, so requires Python 3.6 (tested with Python 3.6.2)
  - [pipenv](https://docs.pipenv.org) is used to manage requirements. As long as you have pipenv installed you should just need to run `pipenv install` to install all the dependencies.
+ - If you want to install the dependencies manually, you should only need the following packages from PyPI:
+   - `uuid`
+   - `ciscosparkapi`
+   - `websockets`
  
 ## Usage
 ### Example
