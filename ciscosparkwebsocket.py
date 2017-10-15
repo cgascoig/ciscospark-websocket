@@ -28,7 +28,7 @@ class CiscoSpark(object):
         self.device_info = None
         self.on_message = on_message
         
-    def process_message(self, msg):
+    def _process_message(self, msg):
         if msg['data']['eventType'] == 'conversation.activity':
             logging.debug(' Event Type is conversation.activity\n')
             activity = msg['data']['activity']
@@ -89,7 +89,7 @@ class CiscoSpark(object):
                     try:
                         msg = json.loads(message)
                         loop = asyncio.get_event_loop()
-                        loop.run_in_executor(None, self.process_message, msg)
+                        loop.run_in_executor(None, self._process_message, msg)
                     except:
                         logging.warning('An exception occurred while processing message. Ignoring. ')
                         
