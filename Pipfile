@@ -8,9 +8,5 @@ name = "pypi"
 [packages]
 
 uuid = "*"
-ciscosparkapi = "*"
+webexteamssdk = "*"
 websockets = "*"
-
-
-[requires]
-python_version = "3.6"
